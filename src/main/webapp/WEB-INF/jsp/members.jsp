@@ -15,6 +15,9 @@
 			min="1" max="${totalCount / 100 + 1 }" step="1" style="width: 50px;">
 		<button type="submit">조회</button>
 	</form>
+	<p>
+		<a href="./">[첫 화면]</a>
+	</p>
 	<table>
 		<thead>
 			<tr>
