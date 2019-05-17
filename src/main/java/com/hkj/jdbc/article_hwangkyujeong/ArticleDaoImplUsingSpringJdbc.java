@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository("articleDao")
 public class ArticleDaoImplUsingSpringJdbc implements ArticleDao {
 
-	static final String INSERT = "INSERT INTO article (title,content,userId,name) VALUES(?, ?, '2015041062', '황규정')";
+	static final String INSERT = "INSERT INTO article (title,content,userId,name) VALUES(?, ?, ?, ?)";
 
 	static final String SELECT_ALL = "SELECT articleId, title, content, userId, name, cdate FROM article ORDER BY articleId desc LIMIT ?,?";
 
@@ -34,7 +34,7 @@ public class ArticleDaoImplUsingSpringJdbc implements ArticleDao {
 	 */
 	@Override
 	public void insert(Article article) {
-		jdbcTemplate.update(INSERT, article.getTitle(), article.getContent());
+		jdbcTemplate.update(INSERT, article.getTitle(), article.getContent(), article.getUserId(), article.getName());
 	}
 
 	/**

@@ -2,6 +2,8 @@ package com.hkj.jdbc.article_hwangkyujeong;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.hkj.jdbc.chap11.Member;
 
 /**
  * 회원가입 컨트롤러
@@ -31,19 +35,32 @@ public class ArticleController {
 	/**
 	 * p.271 [리스트 11.5] handleStep1()
 	 */
-	@RequestMapping("/article/Add")
-	public void FirstSpace() {
-	}
+	@RequestMapping("/article/Addarticle")
+	public String articleAddForm(HttpSession session) {
+		Object memberObj = session.getAttribute("MEMBER");
+		if (memberObj == null)
+			return "redirect:/app/loginForm";
 
-	/**
-	 * p.282 [리스트 11.11] handleStep3()
-	 */
-	@PostMapping("/article/Success")
-	public String addArticle(Article article) {
-			articleDao.insert(article);
-			logger.debug("글을 작성했습니다. {}", article);
-			return "article/Success";
+		return "article/Addarticle";
 	}
+	
+	@PostMapping("/article/Success")
+	public String articleAdd(Article article, HttpSession session) {
+		Object memberObj = session.getAttribute("MEMBER");
+		if (memberObj == null)
+			return "redirect:/app/loginForm";
+
+		Member member = (Member) memberObj;
+		article.setUserId(member.getMemberId());
+		article.setName(member.getName());
+		articleDao.insert(article);
+		return "redirect:/app/articles";
+}
+	
+	
+	 /* p.282 [리스트 11.11] handleStep3()
+	 */
+
 	
 	@GetMapping("/article/List")
 	public void List(@RequestParam("articleId") String articleId,
