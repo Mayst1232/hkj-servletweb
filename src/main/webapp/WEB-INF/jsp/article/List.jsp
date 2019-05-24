@@ -14,6 +14,12 @@
 <form action="./app/main2">
 	<button type = "submit">첫 화면</button>
 </form>
+<form action="./app/article/Update">
+	<button type = "submit">수정</button>
+</form>
+<form action="./app/article/Delete">
+<button type = "submit">삭제</button>
+</form>
 </body> 
 </head> 
 </html>

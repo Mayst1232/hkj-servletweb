@@ -2,8 +2,6 @@ package com.hkj.jdbc.article_hwangkyujeong;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hkj.jdbc.chap11.Member;
 
@@ -36,21 +35,13 @@ public class ArticleController {
 	 * p.271 [리스트 11.5] handleStep1()
 	 */
 	@RequestMapping("/article/Addarticle")
-	public String articleAddForm(HttpSession session) {
-		Object memberObj = session.getAttribute("MEMBER");
-		if (memberObj == null)
-			return "redirect:/app/loginForm";
-
+	public String articleAddForm(@SessionAttribute("MEMBER") Member member) {
 		return "article/Addarticle";
 	}
 	
 	@PostMapping("/article/Success")
-	public String articleAdd(Article article, HttpSession session) {
-		Object memberObj = session.getAttribute("MEMBER");
-		if (memberObj == null)
-			return "redirect:/app/loginForm";
-
-		Member member = (Member) memberObj;
+	public String articleAdd(Article article, 
+			@SessionAttribute("MEMBER") Member member) {
 		article.setUserId(member.getMemberId());
 		article.setName(member.getName());
 		articleDao.insert(article);
@@ -86,4 +77,28 @@ public class ArticleController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("articles", articleList);
 	}
+	
+	@PostMapping("/article/Update")
+	public String updateArticle(
+			Article article,
+			@RequestParam("title") String title,
+			@RequestParam("content") String content,
+			@SessionAttribute("MEMBER") Member member, Model model) {
+		int updatedRows = articleDao.updateArticle(article.getUserId(), title, content);
+		
+		if(updatedRows > 0) {
+			return "article/Update";
+		} else {
+			model.addAttribute("mode", "FAILURE");
+			return "articles";
+		}
+	}
+	
+	@GetMapping("/article/Delete")
+	public String deleteArticle(String articleId, 
+			@SessionAttribute("MEMBER") Member member, Model model) {
+		articleDao.deleteArticle(articleId);
+		return "/article/Delete";
+	}
+	
 }

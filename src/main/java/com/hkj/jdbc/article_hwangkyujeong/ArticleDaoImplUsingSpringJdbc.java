@@ -22,6 +22,10 @@ public class ArticleDaoImplUsingSpringJdbc implements ArticleDao {
 	static final String COUNT_ALL = "SELECT count (articleId) count FROM article";
 	
 	static final String GET_ARTICLE = "Select * from article where articleid = ?";
+	
+	static final String UPDATE_ARTICLE = "UPDATE article SET title=?, content=? WHERE articleId=?";
+	
+	static final String DELETE_ARTICLE = "DELETE FROM article WHERE userId=?";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -54,5 +58,16 @@ public class ArticleDaoImplUsingSpringJdbc implements ArticleDao {
 		// TODO Auto-generated method stub
 		return jdbcTemplate.queryForObject(GET_ARTICLE,
 				new BeanPropertyRowMapper<>(Article.class), articleId);
+	}
+
+	@Override
+	public int updateArticle(String title, 
+			String content, String userId) {
+		return jdbcTemplate.update(UPDATE_ARTICLE, title, content, userId);
+	}
+
+	@Override
+	public int deleteArticle(String userId) {
+		return jdbcTemplate.update(DELETE_ARTICLE, userId);
 	}
 }
