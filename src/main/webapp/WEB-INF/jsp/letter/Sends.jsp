@@ -6,7 +6,7 @@
 <html>
 <head>
 <base href="${pageContext.request.contextPath }/" />
-<title>회원 목록</title>
+<title>받은 편지 목록</title>
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/header.jsp"%>
@@ -22,22 +22,21 @@
 	<table>
 		<thead>
 			<tr>
-				<td>글번호</td>
+				<td>편지 번호</td>
 				<td>제목</td>
-				<td>학번</td>
-				<td>이름</td>
+				<td>받은 사람 학번</td>
+				<td>받은 사람</td>
 				<td>등록날짜</td>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="article" items="${articles}">
+			<c:forEach var="letter" items="${letters}">
 				<tr>
-					<td><a href="./app/article/List?articleId=${article.articleId}">${article.articleId }</a></td>
-					<td>${article.title }</td>
-					<td>${article.userId }</td>
-					<td>${article.name }</td>
-					<td>${article.cdate }</td>
-					<td><a href="./app/letter/Addletter?articleId=${article.articleID }">${article.articleId }</a></td>
+					<td>${letter.letterId }</td>
+					<td>${letter.title }</td>
+					<td>${letter.receiverId }</td>
+					<td>${letter.receivername }</td>
+					<td>${letter.cdate }</td>
 				</tr>
 			</c:forEach>
 		</tbody>
