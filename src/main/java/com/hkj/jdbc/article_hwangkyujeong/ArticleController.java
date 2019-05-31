@@ -88,14 +88,14 @@ public class ArticleController {
 		
 		model.addAttribute("article",article);
 	}
-	@PostMapping("/article/update")
+	@PostMapping("/article/Update")
 	public String update(Article article,
 			@SessionAttribute("MEMBER") Member member) {
 		article.setUserId(member.getMemberId());
 		int updatedRows = articleDao.updateArticle(article);
 		if(updatedRows == 0)
 			throw new RuntimeException("No Authority!");
-		return "redirect:/app/article/view?articleId=" + article.getArticleId();
+		return "redirect:/app/article/List?articleId=" + article.getArticleId();
 	}
 	
 	@GetMapping("/article/Delete")
@@ -107,7 +107,7 @@ public class ArticleController {
 			throw new RuntimeException("No Authority!");
 		
 		logger.debug("글을 삭제했습니다. articleId={}", articleId);
-		return "redirect:/app/article/list";
+		return "redirect:/app/articles";
 	}
 	
 }
