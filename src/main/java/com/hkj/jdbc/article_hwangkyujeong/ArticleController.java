@@ -78,27 +78,36 @@ public class ArticleController {
 		model.addAttribute("articles", articleList);
 	}
 	
-	@PostMapping("/article/Update")
-	public String updateArticle(
-			Article article,
-			@RequestParam("title") String title,
-			@RequestParam("content") String content,
+	@GetMapping("/article/UpdateForm")
+	public void updateArticle(@RequestParam("articleId") String articleId,
 			@SessionAttribute("MEMBER") Member member, Model model) {
-		int updatedRows = articleDao.updateArticle(article.getUserId(), title, content);
+		Article article = articleDao.getArticle(articleId);
 		
-		if(updatedRows > 0) {
-			return "article/Update";
-		} else {
-			model.addAttribute("mode", "FAILURE");
-			return "articles";
-		}
+		if(!member.getMemberId().contentEquals(article.getUserId()))
+			throw new RuntimeException("No Autority!");
+		
+		model.addAttribute("article",article);
+	}
+	@PostMapping("/article/update")
+	public String update(Article article,
+			@SessionAttribute("MEMBER") Member member) {
+		article.setUserId(member.getMemberId());
+		int updatedRows = articleDao.updateArticle(article);
+		if(updatedRows == 0)
+			throw new RuntimeException("No Authority!");
+		return "redirect:/app/article/view?articleId=" + article.getArticleId();
 	}
 	
 	@GetMapping("/article/Delete")
-	public String deleteArticle(String articleId, 
-			@SessionAttribute("MEMBER") Member member, Model model) {
-		articleDao.deleteArticle(articleId);
-		return "/article/Delete";
+	public String deleteArticle(@RequestParam("articleId") String articleId, 
+			@SessionAttribute("MEMBER") Member member) {
+		int updatedRows = articleDao.deleteArticle(articleId,
+				member.getMemberId());
+		if(updatedRows == 0)
+			throw new RuntimeException("No Authority!");
+		
+		logger.debug("글을 삭제했습니다. articleId={}", articleId);
+		return "redirect:/app/article/list";
 	}
 	
 }

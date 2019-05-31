@@ -1,6 +1,7 @@
 package com.hkj.jdbc.article_hwangkyujeong;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,9 +24,9 @@ public class ArticleDaoImplUsingSpringJdbc implements ArticleDao {
 	
 	static final String GET_ARTICLE = "Select * from article where articleid = ?";
 	
-	static final String UPDATE_ARTICLE = "UPDATE article SET title=?, content=? WHERE articleId=?";
+	static final String UPDATE_ARTICLE = "UPDATE article SET title=?, content=? WHERE (articleId,userId) = (?,?)";
 	
-	static final String DELETE_ARTICLE = "DELETE FROM article WHERE userId=?";
+	static final String DELETE_ARTICLE = "DELETE FROM article WHERE (articleId, userId)= (?,?)";
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -61,13 +62,15 @@ public class ArticleDaoImplUsingSpringJdbc implements ArticleDao {
 	}
 
 	@Override
-	public int updateArticle(String title, 
-			String content, String userId) {
-		return jdbcTemplate.update(UPDATE_ARTICLE, title, content, userId);
+	public int updateArticle(Article article) {
+		return jdbcTemplate.update(UPDATE_ARTICLE, article.getTitle(), article.getContent(), 
+				article.getArticleId(), article.getUserId());
 	}
 
-	@Override
-	public int deleteArticle(String userId) {
-		return jdbcTemplate.update(DELETE_ARTICLE, userId);
+	public int deleteArticle(String articleId, String userId) {
+		// TODO Auto-generated method stub
+		return jdbcTemplate.update(DELETE_ARTICLE, articleId, userId);
 	}
+
+
 }

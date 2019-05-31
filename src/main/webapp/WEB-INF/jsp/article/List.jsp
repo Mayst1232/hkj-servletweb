@@ -1,26 +1,38 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
-<html> 
-<head> 
-<base href="${pageContext.request.contextPath }/" /> 
-<title>조회</title> 
-</head> 
-<body> 
-<p> 글번호 : ${article.articleId }.</p>
-<p> 제목 : ${article.title }.</p>
-<p> 내용 : ${article.contentHtml }.</p>
-<p> 학번 : ${article.userId }.</p>
-<p> 작성자 : ${article.name }.</p>
-<p> 작성날짜 : ${article.cdate }.</p>
-<form action="./app/main2">
-	<button type = "submit">첫 화면</button>
-</form>
-<form action="./app/article/Update">
-	<button type = "submit">수정</button>
-</form>
-<form action="./app/article/Delete">
-<button type = "submit">삭제</button>
-</form>
-</body> 
-</head> 
+<html>
+<head>
+<base href="${pageContext.request.contextPath }/" />
+<title>게시판</title>
+<script type="text/javascript">
+	function confirmDelete() {
+		if (confirm("삭제하시겠습니까?"))
+			return true;
+		else
+			return false;
+	}
+</script>
+</head>
+<body>
+	<%@ include file="/WEB-INF/jsp/header.jsp"%>
+	<h2>글 보기</h2>
+	<p>
+		<a href="./app/articles">글목록</a>
+		<c:if test="${article.userId == sessionScope.MEMBER.memberId }">
+			<a href="./app/article/updateForm?articleId=${article.articleId }">글수정</a>
+			<a href="./app/article/delete?articleId=${article.articleId }"
+				onclick="return confirmDelete();">글삭제</a>
+		</c:if>
+	</p>
+	<hr />
+	<p>
+		<span>${article.articleId }</span> | <span style="font-weight: bold;">${article.title }</span>
+	</p>
+	<p>
+		<span>${article.cdate }</span> | <span>${article.name }</span>
+	</p>
+	<hr />
+	<p>${article.contentHtml }</p>
+	<hr />
+</body>
 </html>
-

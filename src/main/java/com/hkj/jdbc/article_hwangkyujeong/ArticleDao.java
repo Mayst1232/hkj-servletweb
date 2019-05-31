@@ -27,7 +27,7 @@ public interface ArticleDao {
 	
 	Article getArticle(String articleId);
 	
-	int updateArticle(String userId, String title, String content);
+	int updateArticle(Article article);
 	
-	int deleteArticle(String userId);
+	int deleteArticle(String articleId, String userId);
 }
