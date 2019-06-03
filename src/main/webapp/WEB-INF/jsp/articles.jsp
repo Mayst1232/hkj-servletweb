@@ -37,7 +37,6 @@
 					<td>${article.userId }</td>
 					<td>${article.name }</td>
 					<td>${article.cdate }</td>
-					<td><a href="./app/letter/Addletter?articleId=${article.articleID }">${article.articleId }</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

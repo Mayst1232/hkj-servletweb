@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>글쓰기</h1>
-	<form action="./app/article/Success" method="post">
+	<form action="./app/article/AddSuccess" method="post">
 		<p>	
 			글제목:<br> <input type="text" name="title" value= "${param.title }">
 		</p>	

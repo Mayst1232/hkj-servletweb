@@ -18,21 +18,26 @@
 	<h2>편지 보기</h2>
 	<p>
 		<a href="./app/letter/Receives">받은 편지 목록</a>
-		<c:if test="${article.userId == sessionScope.MEMBER.memberId }">
-			<a href="./app/article/UpdateForm?articleId=${article.articleId }">글수정</a>
-			<a href="./app/article/Delete?articleId=${article.articleId }"
+		<a href="./app/letter/Sends">받은 편지 목록</a>
+
+			<a href="./app/letter/delete?letterId=${letter.letterId }"
 				onclick="return confirmDelete();">편지삭제</a>
-		</c:if>
 	</p>
 	<hr />
 	<p>
-		<span>${article.articleId }</span> | <span style="font-weight: bold;">${article.title }</span>
+		<span>번호 : ${letter.letterId }</span>  
 	</p>
 	<p>
-		<span>${article.cdate }</span> | <span>${article.name }</span>
+		<span>보낸사람 아이디 : ${letter.senderId }</span> | <span> 보낸사람 이름 : ${letter.senderName }</span>
 	</p>
-	<hr />
-	<p>${article.contentHtml }</p>
-	<hr />
+	<p>
+		<span style="font-weight: bold;">제목 : ${letter.title }</span> | <span>내용 : ${letter.content }</span>
+	</p>
+	<p>
+		<span>받는사람 아이디 : ${letter.receiverId }</span> | <span>받는사람 이름 : ${letter.receiverName }</span>
+	</p>
+	<p>
+		<span>등록일시 : ${letter.cdate }</span>
+	</p>
 </body>
 </html>
