@@ -7,7 +7,7 @@
 <body>
 	<p> 편지를 전송했습니다.</p>
 	<p>
-		<a href="./app/Sends">[보낸 편지 목록 이동]</a>
+		<a href="./app/letter/Sends">[보낸 편지 목록 이동]</a>
 	</p>
 </body>
 </html>

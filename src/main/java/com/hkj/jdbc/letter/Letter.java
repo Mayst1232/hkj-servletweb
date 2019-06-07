@@ -57,6 +57,12 @@ public class Letter {
 	public void setCdate(String cdate) {
 		this.cdate = cdate;
 	}
+	public String getContentHtml() {
+		if (content != null)
+			return content.replace("\n", "<br/>");
+		return null;
+	}
+	
 	@Override
 	public String toString() {
 		return "Letter [letterId=" + letterId + ", title=" + title + ", content=" + content + ", senderId=" + senderId

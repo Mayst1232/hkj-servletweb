@@ -3,7 +3,7 @@
 <html>
 <head>
 <base href="${pageContext.request.contextPath }/" />
-<title>보낸목록</title>
+<title>받은 편지함</title>
 <style type="text/css">
 table {
 	margin-top: 10px;
@@ -12,9 +12,11 @@ table {
 	border-bottom: 1px solid gray;
 	width: 100%;
 }
+
 th, td {
 	padding: 5px 0;
 }
+
 th {
 	border-bottom: 1px solid gray;
 }
@@ -22,34 +24,27 @@ th {
 </head>
 <body>
 	<%@ include file="/WEB-INF/jsp/header.jsp"%>
-	<h2>받은 목록</h2>
-	<p>
-		<a href="./app/letter/Addletter">편지쓰기</a>
-	</p>
-	<p>전체 ${totalCount }건</p>
+	<h2>받은 편지함</h2>
+	<p>전체 ${count }건</p>
 	<form action="./app/letter/Receives">
 		<input type="number" name="page" value="${param.page }" placeholder="페이지"
-			min="1" max="${totalCount / 20 + 1 }" step="1" style="width: 50px;">
+			min="1" max="${count / 20 + 1 }" step="1" style="width: 50px;">
 		<button type="submit">조회</button>
 	</form>
-
 	<table>
 		<thead>
 			<tr>
-				<th>편지번호</th>
+				<th>보낸이</th>
 				<th>제목</th>
-				<th>받은 사람 아이디</th>
-				<th>받은 사람 이름</th>
-				<th>보낸일시</th>
+				<th>보낸시간</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="letter" items="${letters}">
 				<tr>
-					<td><a href="./app/letter/Mails?letterId=${letter.letterId }">${letter.letterId }</a></td>
+					<td><a
+						href="./app/letter/Addletter?receiverId=${letter.senderId }&receiverName=${letter.senderName}">${letter.senderId }:${letter.senderName }</a></td>
 					<td><a href="./app/letter/Mails?letterId=${letter.letterId }">${letter.title }</a></td>
-					<td>${letter.receiverId }</td>
-					<td>${letter.receiverName }</td>
 					<td>${letter.cdate }</td>
 				</tr>
 			</c:forEach>
